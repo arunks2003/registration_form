@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
+import PersonDataService from './services/services'
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
     phnNum: "",
   }
 
+  // const [message, setMessage] = useState({ error: false, msg: "" });
   const [person, setPerson] = useState(
     // name: "",
     // email: "",
@@ -24,13 +26,24 @@ function App() {
     // console.log(event.target)
     const { name, value } = event.target;
     setPerson({ ...person, [name]: value });//now name takes as a key and value is assigned to a key
-    console.log(person);
   }
 
-  function handleSubmit(event) {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setErrors(validate(person));
-    setIsSubmit(true);
+    if (errors) {
+      setIsSubmit(true);
+      console.log(person);
+      try {
+        await PersonDataService.addPerson(person);
+        alert("New Person added successfully!");
+      }
+      catch (err) {
+        console.error(`Failed to add new person ${err}`);
+      }
+      setPerson(initialValues);
+    }
   }
 
   useEffect(() => {

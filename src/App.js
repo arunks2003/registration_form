@@ -21,6 +21,7 @@ function App() {
   )
   const [errors, setErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);//just a flag for check submit
+  let isError = 0;
 
   function handleChange(event) {
     // console.log(event.target)
@@ -29,22 +30,7 @@ function App() {
   }
 
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setErrors(validate(person));
-    if (errors) {
-      setIsSubmit(true);
-      console.log(person);
-      try {
-        await PersonDataService.addPerson(person);
-        alert("New Person added successfully!");
-      }
-      catch (err) {
-        console.error(`Failed to add new person ${err}`);
-      }
-      setPerson(initialValues);
-    }
-  }
+
 
   useEffect(() => {
     console.log(errors);
@@ -61,8 +47,10 @@ function App() {
     }
     if (!values.email) {
       errors.email = "*Email is required!";
+      isError = 1;
     } else if (!regex.test(values.email)) {
       errors.email = "*Email is not in a valid email format!";
+      isError = 1;
     }
     if (!values.branch) {
       errors.branch = "*Branch is required";
@@ -71,8 +59,30 @@ function App() {
       errors.phnNum = "*Phone Number is required";
     } else if (values.phnNum.length < 10) {
       errors.phnNum = "*Phone Number must be atleast 10 integers";
+      isError = 1;
     }
     return errors;
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    validate(person);
+    setErrors(validate(person));
+    setIsSubmit(true);
+    console.log(person);
+    if (isError === 1) {
+      alert('Oops! there was an error');
+      return;
+    }
+    try {
+      await PersonDataService.addPerson(person);
+      setPerson(initialValues);
+      alert("New Person added successfully!");
+    }
+    catch (err) {
+      console.error(`Failed to add new person ${err}`);
+    }
+
   }
   return (
     <div className="App">

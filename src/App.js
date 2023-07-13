@@ -45,6 +45,9 @@ function App() {
     if (!values.name) {
       errors.name = "*Name is required!";
     }
+    else if (values.name.length < 2) {
+      errors.name = "* Name should have more than one character";
+    }
     if (!values.email) {
       errors.email = "*Email is required!";
       isError = 1;
@@ -62,7 +65,7 @@ function App() {
       isError = 1;
     }
     else if (isNaN(values.phnNum)) {
-      errors.phnNum = "*Please enter only numbers for phone number";
+      errors.phnNum = "*Only Numbers for Phone Num.";
       isError = 1;
     }
     return errors;
@@ -96,23 +99,22 @@ function App() {
         <form name='myForm' onSubmit={handleSubmit} autoComplete='off'>
           <div class="user-box">
             <input type="text" name="name" required autoComplete='off' value={person.name} onChange={handleChange} />
-            <label>Name</label>
-            <p className='errormsg'>{errors.name}</p>
+            <label>Name  <span className='errormsg'> {errors.name}</span></label>
+            {/* <p className='errormsg'>{errors.name}</p> */}
           </div>
           <div class="user-box">
             <input type="text" name="email" required autoComplete='off' value={person.email} onChange={handleChange} />
-            <label>Email</label>
-            <p className='errormsg'>{errors.email}</p>
+            <label>Email  <span className='errormsg'> {errors.email}</span></label>
           </div>
           <div class="user-box">
             <input type="text" name="branch" required autoComplete='off' value={person.branch} onChange={handleChange} />
-            <label>Branch</label>
-            <p className='errormsg'>{errors.branch}</p>
+            <label>Branch  <span className='errormsg'> {errors.branch}</span></label>
+            {/* <p className='errormsg'>{errors.branch}</p> */}
           </div>
           <div class="user-box">
             <input type="text" name="phnNum" required autoComplete='off' value={person.phnNum} onChange={handleChange} />
-            <label>Phone Number</label>
-            <p className='errormsg'>{errors.phnNum}</p>
+            <label>Phone Number  <span className='errormsg'> {errors.phnNum}</span></label>
+            {/* <p className='errormsg'>{errors.phnNum}</p> */}
           </div>
           <button type='submit'>
             <span></span>

@@ -61,6 +61,10 @@ function App() {
       errors.phnNum = "*Phone Number must be atleast 10 integers";
       isError = 1;
     }
+    else if (isNaN(values.phnNum)) {
+      errors.phnNum = "*Please enter only numbers for phone number";
+      isError = 1;
+    }
     return errors;
   }
 
